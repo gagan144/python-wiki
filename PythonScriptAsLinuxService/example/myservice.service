@@ -1,0 +1,15 @@
+[Unit]
+Description=This is service for my custom python script
+After=network.target
+StartLimitBurst=5
+StartLimitIntervalSec=10
+
+[Service]
+User=ubuntu
+Type=simple
+WorkingDirectory=/home/ubuntu/projects/python-wiki/PythonScriptAsLinuxService/example
+ExecStart=/bin/bash -c 'cd /home/ubuntu/projects/python-wiki/PythonScriptAsLinuxService/example/ && source /home/ubuntu/PythonEnv/venv/bin/activate && python myservice.py'
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
