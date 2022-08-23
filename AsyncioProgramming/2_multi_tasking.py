@@ -6,22 +6,28 @@ import time
 
 async def mytask(name, limit=10):
     pid = os.getpid()
+
     print(f"[Mytask::{name}|PID={pid}] Start")
+    start_time = time.time()
+
     for i in range(limit):
         print(f"[Mytask::{name}|PID={pid}]\tValue={i}")
         # Note: Do not use time.sleep() as will block the calls. Asyncio is
         # a non-blocking sleep mechanism
         await asyncio.sleep(0.1)
 
+    time_taken_ms = (time.time() - start_time) * 1000
     print(f"[Mytask::{name}|PID={pid}] End.")
+
     return {
         "name": name,
-        "message": "ok"
+        "message": "ok",
+        "time_taken_ms": round(time_taken_ms, 2)
     }
 
 
 async def main():
-    N_TASKS = 20
+    N_TASKS = 1000
     pid = os.getpid()
     print(f"[Main|PID={pid}] Start")
 
@@ -42,7 +48,7 @@ async def main():
 
     time_taken_ms = (time.time()-start_time)*1000
 
-    print(f"[Main|PID={pid}] End! Time taken: {time_taken_ms:.2f} ms")
+    print(f"[Main|PID={pid}] End! Time taken: {time_taken_ms:.2f} ms to run {N_TASKS} tasks.")
 
 
 if __name__ == '__main__':
@@ -58,7 +64,7 @@ OUTPUT
 
 [Python|PID=14728] Start
 [Main|PID=14728] Start
-[Main|PID=14728] Preparing 20 tasks to be executed in parallel...
+[Main|PID=14728] Preparing 100000 tasks to be executed in parallel...
 [Main|PID=14728] Executing tasks asynchronously...
 :
 :
@@ -67,7 +73,7 @@ OUTPUT
 :
 :
 :
-[Main|PID=14728] Results=[{'name': 'Iceandfire-1', 'message': 'ok'}, {'name': 'Iceandfire-2', 'message': 'ok'}, {'name': 'Iceandfire-3', 'message': 'ok'}, {'name': 'Iceandfire-4', 'message': 'ok'}, {'name': 'Iceandfire-5', 'message': 'ok'}, {'name': 'Iceandfire-6', 'message': 'ok'}, {'name': 'Iceandfire-7', 'message': 'ok'}, {'name': 'Iceandfire-8', 'message': 'ok'}, {'name': 'Iceandfire-9', 'message': 'ok'}, {'name': 'Iceandfire-10', 'message': 'ok'}, {'name': 'Iceandfire-11', 'message': 'ok'}, {'name': 'Iceandfire-12', 'message': 'ok'}, {'name': 'Iceandfire-13', 'message': 'ok'}, {'name': 'Iceandfire-14', 'message': 'ok'}, {'name': 'Iceandfire-15', 'message': 'ok'}, {'name': 'Iceandfire-16', 'message': 'ok'}, {'name': 'Iceandfire-17', 'message': 'ok'}, {'name': 'Iceandfire-18', 'message': 'ok'}, {'name': 'Iceandfire-19', 'message': 'ok'}, {'name': 'Iceandfire-20', 'message': 'ok'}]
-[Main|PID=14728] End! Time taken: 1009.37 ms
-[Python|PID=14728] End.
+ ... {'name': 'Iceandfire-99999', 'message': 'ok', 'time_taken_ms': 17395.25}, {'name': 'Iceandfire-100000', 'message': 'ok', 'time_taken_ms': 17395.24}]
+[Main|PID=15447] End! Time taken: 20345.96 ms to run 100000 tasks.
+[Python|PID=15447] End.
 """

@@ -6,17 +6,23 @@ import time
 
 async def mytask(name, limit=10):
     pid = os.getpid()
+
     print(f"[Mytask::{name}|PID={pid}] Start")
+    start_time = time.time()
+
     for i in range(limit):
         print(f"[Mytask::{name}|PID={pid}]\tValue={i}")
         # Note: Do not use time.sleep() as will block the calls. Asyncio is
         # a non-blocking sleep mechanism
         await asyncio.sleep(0.1)
 
+    time_taken_ms = (time.time() - start_time) * 1000
     print(f"[Mytask::{name}|PID={pid}] End.")
+
     return {
         "name": name,
-        "message": "ok"
+        "message": "ok",
+        "time_taken_ms": round(time_taken_ms, 2)
     }
 
 
