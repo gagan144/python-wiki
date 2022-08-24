@@ -1,6 +1,8 @@
+"""
+Python script to perform multitasking asynchronously.
+"""
 import os
 import asyncio
-import uuid
 import time
 
 
@@ -34,7 +36,7 @@ async def main():
     start_time = time.time()
 
     # (1) Prepare list of tasks to be executed
-    print(f"[Main|PID={pid}] Preparing {N_TASKS} tasks to be executed in parallel...")
+    print(f"[Main|PID={pid}] Preparing {N_TASKS} tasks to be executed asynchronously...")
     list_tasks = []
     for i in range(N_TASKS):
         list_tasks.append(

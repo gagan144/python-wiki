@@ -1,3 +1,6 @@
+"""
+Basic python asyncio example.
+"""
 import os
 import asyncio
 import uuid
@@ -33,7 +36,7 @@ async def main():
     start_time = time.time()
 
     # # --- Method-1 ---
-    # # Prepare a coroutine; THis does not execute the task
+    # # Prepare a coroutine; This does not out it in the event loop and it is not executed until await is used.
     # task1 = mytask(name=str(uuid.uuid4()), limit=10)
     # print(f"[Main|PID={pid}] task1={task1}")
     #
@@ -42,8 +45,9 @@ async def main():
     # # --- /Method-1 ---
 
     # --- Method-2 ---
-    # Creating asyncio task to receive a future. This will execute the task asynchronously as soon as
-    # the program control encounters an await statement (for this task or for something else) or parent function end
+    # Creating asyncio task to receive a future. This will throw the task in the event loop and execute asynchronously.
+    # Additionally, it is observered that the task is not executed until the program control encounters an 'await'
+    # statement (for this task or for something else) or the main function ends.
     task1 = asyncio.create_task(mytask(name=str(uuid.uuid4()), limit=10))
     print(f"[Main|PID={pid}] task1={task1}, state={task1._state}")
 
